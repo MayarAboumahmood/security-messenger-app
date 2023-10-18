@@ -62,7 +62,7 @@ const Home = () => {
             />
             <button className="sendButton" onClick={handleSendMessage1}>Send</button>
         </div>
-            <div id="textFeild2">
+            {/* <div id="textFeild2">
                     <input
                         type="text"
                         placeholder="Type your message..."
@@ -70,7 +70,7 @@ const Home = () => {
                         onChange={handleMessage2Change}
                     />
                     <button className="sendButton" onClick={handleSendMessage2}>Send</button>
-                </div>
+                </div> */}
             
     </div>
         
