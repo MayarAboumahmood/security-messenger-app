@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./../style/loginStyle.css"; 
 
 
-const Login = () => {
+const Register = () => {
     const navigate=useNavigate();
     const [userName, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +17,7 @@ const Login = () => {
         console.log('name: ', userName);
         try {
             const response = await axios.post(
-                'http://localhost:8000/login',
+                'http://localhost:8000/Register',
                 user
             );
             if (response.status === 200) {
@@ -31,7 +31,7 @@ const Login = () => {
     };
     return (
         <div className="container">
-      <h2 className="header">Login</h2>
+      <h2 className="header">Register</h2>
       <form className="loginInfo">
         <p>name</p>
         <input
@@ -50,12 +50,13 @@ const Login = () => {
           onChange={({ target }) => setPassword(target.value)}
         />
         <button type="submit" onClick={handleSubmit}>
-          Login
+          Register
         </button>
-        <a href="/Register">don't have an account yet?</a>
+        <a href="/">already have an account?</a>
+
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;

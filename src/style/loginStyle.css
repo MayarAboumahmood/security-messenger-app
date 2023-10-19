@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* 100% of the viewport height */
+  }
+  
+  .loginInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .loginInput {
+    padding: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-color: crimson;
+    border-radius: 8px;
+  }
+  
+  button {
+    margin: 5px;
+    width: 80px;
+    height: 30px;
+    background-color: crimson;
+    border-radius: 8px;
+    border-color: black;
+    border-style: solid;
+  }
+  

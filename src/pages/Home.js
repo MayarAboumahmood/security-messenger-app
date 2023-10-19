@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './../style/homeStyle.css';
 
 const Home = () => {
     const [messages1, setMessages1] = useState([]);

@@ -1,0 +1,110 @@
+.home {
+    background-color: white;
+  
+  }
+  
+  
+  #textFeild1 {
+    margin: 10px;
+    float: left;
+    display: flex;
+    padding-left: 10px;
+  }
+  
+  #textFeild2 {
+    padding-right: 10px;
+    margin: 10px;
+    float: right;
+    display: flex;
+  }
+  
+  .sendButton {
+    display: flex;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 8px;
+    border-width: 5;
+    border-color: brown;
+    background-color: crimson;
+    cursor: pointer;
+  }
+  
+  .theScreen {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    overflow-y: scroll;
+    width: 95%;
+    border: 5px solid crimson;
+  }
+  
+  #message2OneTheScreen {
+    align-self: flex-end;
+    background-color: #f1d3d3;
+    max-width: 70%;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  #message1OneTheScreen {
+    align-self: flex-start;
+    background-color: #f1d3d3;
+    max-width: 70%;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  
+  .theScreen::-webkit-scrollbar {
+    cursor: pointer;
+    width: 12px;
+  }
+  
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Set the color of the scrollbar handle */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Set the color when the scrollbar handle is hovered */
+  }
+  
+  /* Track on hover */
+  ::-webkit-scrollbar-track:hover {
+    background: #f0f0f0;
+    /* Set the color when the scrollbar track is hovered */
+  }
+  
+  /* Button (arrows) */
+  ::-webkit-scrollbar-button {
+    display: none;
+    /* Hide the scrollbar buttons (arrows) */
+  }
+  
+  /* Track piece (the part of the track not covered by the handle) */
+  ::-webkit-scrollbar-track-piece {
+    background: #f0f0f0;
+    /* Set the color of the track piece */
+  }
+  
+  /* Corner between vertical and horizontal scrollbars */
+  ::-webkit-scrollbar-corner {
+    background: #f0f0f0;
+    /* Set the color of the scrollbar corner */
+  }
+  
+  
+  .scrollable:hover {
+    cursor: pointer;
+    /* You can use any valid CSS cursor value here */
+  }
+  
