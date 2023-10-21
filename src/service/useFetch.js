@@ -8,6 +8,7 @@ const useFetch = (url) => {
         const abortController = new AbortController();
         fetch(url, { signal: abortController.signal }).then(response => {
             if (!response.ok) {
+                console.log('response:',response);
                 throw Error('could not fatch the data');
             }
             return response.json();
