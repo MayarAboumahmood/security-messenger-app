@@ -41,7 +41,7 @@
   border: 5px solid crimson;
 }
 
-#message2OneTheScreen {
+#other_messages {
   align-self: flex-end;
   background-color: #f1d3d3;
   max-width: 70%;
@@ -50,7 +50,7 @@
   border-radius: 8px;
 }
 
-#message1OneTheScreen {
+#my_messages {
   align-self: flex-start;
   background-color: #f1d3d3;
   max-width: 70%;

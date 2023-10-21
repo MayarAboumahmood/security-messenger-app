@@ -7,22 +7,48 @@ const Home = () => {
     const { openChatURL } = require('./../const/const.js');
     const location = useLocation();
     const userId = new URLSearchParams(location.search).get("userId");
-      
+    const [messagesVar, setMessagesVar] = useState('');
+    
+     const handleMessageChange = (e) => {
+        setNewMessage1(e.target.value);
+    };
+    // const handleSendMessage = () => {
+    //   if (newMessage1.trim() !== '') {
+    //     setMessagesVar([
+    //       ...messagesVar,
+    //       {
+    //         text: messagesVar,
+    //       },
+    //     ]);
+    //     setNewMessage1('');
+    //   }
+    // };
   const { data: messages, isPending, error } = fethcOpenChate(openChatURL);
     
     return (
         <div>
             <h1>let's chat!</h1>
             
-            <div className="chating">
+            <div className="theScreen">
             {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
-      {messages['data'] && messages['data'].map(message => (
-          message.userID===userId && <messageCard text={message.data} />
-        ))
+      {messages['data'] && messages['data'].map(message => {          
+        {message.userID===userId && <messageCard text={message.data} id='my_messages'/>}
+        {message.userID!==userId && <messageCard text={message.data} id='other_messages' />}
+      }
+        )
       }
             </div>
-
+           <div id="textFeild1">
+            <input
+                type="text"
+                placeholder="Type your message..."
+                value={messagesVar}
+                onChange={handleMessageChange}
+            />
+            <button className="sendButton" onClick={handleSendMessage}>Send</button>
+        </div>
+   
         </div>
     );
 }
