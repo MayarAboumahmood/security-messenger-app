@@ -1,22 +1,24 @@
-import React from "react";
-import UserCard from "./../combonent/userChatCard"; // Assuming you have a UserCard component
+import UserCard from "./../combonent/userChatCard";
+import useFetch from "../service/useFetch";
+import { useLocation } from "react-router-dom";
 
-const users = [
-    { id: 1, name: "User1" },
-    { id: 2, name: "User2" },
-    { id: 3, name: "User3" },
-  ];
+const UserList = () => {
+  const { getUsersURL } = require('./../const/const.js');
+  const location = useLocation();
+  const userId = new URLSearchParams(location.search).get("userId");
+  const { data: users, isPending, error } = useFetch(getUsersURL);
+  const filteredUsers = users.filter(user => user._id !== userId);
 
+  return (
+    <div className="home">
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {filteredUsers && filteredUsers.map(user => (
+          <UserCard key={user._id} user={user} />
+        ))
+      }
+    </div>
+  );
+};
 
-  const UserList = ({}) => {    
-    return (
-      <div>
-        {users.map((user) => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </div>
-    );
-  };
-  
-  export default UserList;
-  
+export default UserList;
