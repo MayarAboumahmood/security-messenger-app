@@ -12,7 +12,7 @@ return(
         <Route path='/' element={<Login />} />
         <Route path='/Register' element={<Register />} />
         <Route path='/Chats' element={<Chats />} />
-        <Route path='/chat/:id' element={<Home />} />
+        <Route path="/chat/:userID/:otherUserID" element={<Home />} />
         <Route path='*' element={<NoPage />} />
       </Routes> 
     </BrowserRouter>

@@ -8,12 +8,10 @@ const Login = () => {
     const navigate=useNavigate();
     const [userName, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
     const handleSubmit = async e => {
             e.preventDefault();
             const user = { "user_name":userName,"password": password };
-            console.log('password: ', password);
-        console.log('name: ', userName);
+
         try {
             const response = await axios.post(
               loginURL 
@@ -21,13 +19,10 @@ const Login = () => {
             );
             if (response.status === 200) {
               userId=response.data['data']._id;
-              console.log('userId: ',userId);
               navigate(`/Chats?userId=${userId}`,{replace:true});    
             }
         } catch (error) {
-            // navigate('/Chats',{replace:true});   //to delete after connect with the backend... 
             console.log('error: ', error);
-            setError("Invalid username or password");
         }
     };
     return (
