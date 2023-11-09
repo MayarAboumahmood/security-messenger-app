@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import MessageCard from './../combonent/messagecard';
 
 const HomeChatx = () => {
     const { sendMessageURL, openChatURL } = require('./../const/const.js');
-    const { userID, otherUserID } = useParams();
+    const { userID, otherUserID, userName } = useParams();
     const [localMessage, setLocalMessage] = useState('');
     const [chatID, setChatID] = useState('');
+    let [i, setI] = useState(false);
     let allMessagesObject = {
         message: '',
-        messageID: [],
+        messageID: '',
     }
     const [allMessages, setAllMessages] = useState([allMessagesObject]);
-
-    useEffect(() => {
-        if (chatID === '') {
-            openChat(openChatURL, userID, otherUserID);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chatID, openChatURL, userID, otherUserID]);
+    if (!i) {
+        openChat(openChatURL, userID, otherUserID);
+        setI(true);
+    }
 
     async function openChat(url, userID, otherUserID) {
         try {
@@ -27,23 +25,19 @@ const HomeChatx = () => {
                 "userID1": userID,
                 "userID2": otherUserID,
             });
-            if (response && response.status === 200) {
-                console.log("Request was successful:", response);
+            if (response.status === 200) {
+                console.log("open chat Request was successful:", response);
                 setChatID(response.data.data._id);
-                if(response.data.data.messages.length>0){
-                    console.log('it is empty');
-                }else{
+                if (response.data.data.messages.length === 0) {
+                    console.log('there is no messages yet!');
+                } else {
                     for (let i = 0; i < response.data.data.messages.length; i++) {
-                        console.log('eeeeeeeeeeeeeeeee: ', response.data.data.message[i]);
                         setAllMessages((prevMessages) => [
                             ...prevMessages,
-                            { 'message': response.data.data.message[i], 'messageID': response.data.data.users }
-                        ]);console.log('all messages: ', allMessages.message);
+                            { 'message': response.data.data.messages[i].data, 'messageID': response.data.data.messages[i].userID }
+                        ]);
                     }
-    
                 }
-                
-                console.log("allMessages: ", allMessages);
             }
         } catch (error) {
             console.log('error: ', error);
@@ -60,45 +54,58 @@ const HomeChatx = () => {
         try {
             const response = await axios.post(sendMessageURL, sendMessage);
             if (response.status === 200) {
-                console.log(200);
+                console.log('the message had been sent!');
+
                 let updatedValue = { 'message': localMessage, 'messageID': response.data.data.users };
                 setAllMessages((prevMessages) => [
                     ...prevMessages,
                     updatedValue
-                ]);                
-                console.log('localMessage: ', localMessage);
+                ]);
                 setLocalMessage('');
-                console.log('allMessages: ', allMessages);
+                // scrollToBottom();
+
             }
         } catch (error) {
             console.log('error: ', error);
         }
+
     };
+    // const chatContainerRef = useRef(null);
+
+    // Function to scroll to the bottom of the chat container
+    // const scrollToBottom = () => {
+        // chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    // };
+
+    // useEffect(() => {
+        // Scroll to the bottom when the component initially mounts
+        // scrollToBottom();
+    // }, []);
 
     return (
         <div>
-            <h1>Let's chat!</h1>
-            <div className="theScreen">
-                {allMessages.length > 0 ? (
+            <h1>let's chat with {userName}</h1>
+            <div className="theScreen" /*ref={chatContainerRef}*/>
+                {(allMessages.length > 1) ? (
                     allMessages.map((message, index) => (
                         <MessageCard
                             key={index}
                             messageText={message.message}
-                            isYourMessage={message.messageID[0] === userID}
+                            isYourMessage={message.messageID!==otherUserID}
                         />
                     ))
                 ) : (
                     <p>No messages yet</p>
                 )}
             </div>
-            <div id="textField1">
+            <div id="textFeild1">
                 <input
                     type="text"
                     placeholder="Type your message..."
                     value={localMessage}
                     onChange={handleMessageChange}
                 />
-                <button className="sendButton" onClick={handleSendMessage}>Send</button>
+                <button  onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );

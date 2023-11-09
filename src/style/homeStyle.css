@@ -18,36 +18,16 @@
   display: flex;
 }
 
-.sendButton {
-  display: flex;
-  float: left;
-  margin-top: 10px;
-  margin-left: 10px;
-  border-radius: 8px;
-  border-width: 5;
-  border-color: brown;
-  background-color: crimson;
-  cursor: pointer;
-}
-
 .theScreen {
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 500px;
   margin: 10px;
   padding: 10px;
   overflow-y: scroll;
   width: 95%;
   border: 5px solid crimson;
 }
-/* .messageCard {
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  max-width: 40%;
-  border-radius: 5px;
-  word-wrap: break-word;
-} */
 
 .yourMessage {
   padding: 10px;
@@ -64,11 +44,11 @@
 
 .otherMessage {
   max-width: 40%;
-  padding-left: 60%;
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  margin: 5px;
+  padding: 10px;
+  margin-left: 60%;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
   word-wrap: break-word;

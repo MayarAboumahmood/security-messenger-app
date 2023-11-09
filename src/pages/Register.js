@@ -7,6 +7,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  let userId
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -20,7 +21,9 @@ const Register = () => {
         user
       );
       if (response.status === 200) {
-        navigate('/Chats', { replace: true });
+        userId=response.data['data']._id;
+              navigate(`/Chats?userId=${userId}`,{replace:true});    
+            
       }
     } catch (error) {
       console.log('error: ', error);
