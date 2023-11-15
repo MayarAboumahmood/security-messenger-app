@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import MessageCard from './../combonent/messagecard';
+import MessageCard from './../component/messagecard';
 
 const HomeChatx = () => {
     const { sendMessageURL, openChatURL } = require('./../const/const.js');
@@ -38,6 +38,8 @@ const HomeChatx = () => {
                         ]);
                     }
                 }
+                await timeout(10);
+                scrollToBottom();
             }
         } catch (error) {
             console.log('error: ', error);
@@ -62,7 +64,8 @@ const HomeChatx = () => {
                     updatedValue
                 ]);
                 setLocalMessage('');
-                // scrollToBottom();
+                await timeout(10)
+                scrollToBottom();
 
             }
         } catch (error) {
@@ -70,42 +73,43 @@ const HomeChatx = () => {
         }
 
     };
-    // const chatContainerRef = useRef(null);
-
+    
+    //to make a small delay...
+    function timeout(delay) {
+        return new Promise(res => setTimeout(res, delay));
+    }
+    
+    
+    const messagesEndRef = useRef(null);
     // Function to scroll to the bottom of the chat container
-    // const scrollToBottom = () => {
-        // chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    // };
-
-    // useEffect(() => {
-        // Scroll to the bottom when the component initially mounts
-        // scrollToBottom();
-    // }, []);
-
+    const scrollToBottom = () => {
+        console.log('scrolling...');
+        messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    };
     return (
         <div>
             <h1>let's chat with {userName}</h1>
-            <div className="theScreen" /*ref={chatContainerRef}*/>
+            <div className="theScreen" ref={messagesEndRef}>
                 {(allMessages.length > 1) ? (
                     allMessages.map((message, index) => (
                         <MessageCard
                             key={index}
                             messageText={message.message}
-                            isYourMessage={message.messageID!==otherUserID}
+                            isYourMessage={message.messageID !== otherUserID}
                         />
                     ))
                 ) : (
                     <p>No messages yet</p>
                 )}
             </div>
-            <div id="textFeild1">
+            <div id="textField1">
                 <input
                     type="text"
                     placeholder="Type your message..."
                     value={localMessage}
                     onChange={handleMessageChange}
                 />
-                <button  onClick={handleSendMessage}>Send</button>
+                <button onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );

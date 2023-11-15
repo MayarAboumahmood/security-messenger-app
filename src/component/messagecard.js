@@ -2,7 +2,6 @@ import React from 'react';
 import "./../style/homeStyle.css";
 
 const MessageCard = ({ messageText, isYourMessage }) => {
-  console.log('isYourMessage: ',isYourMessage)
   if(messageText===''){
     return(
       <p/>

@@ -4,21 +4,34 @@
 }
 
 
-#textFeild1 {
+#textField1 {
   margin: 10px;
-  float: left;
-  display: flex;
-  padding-left: 10px;
+  background-color: #555;
+  border:2px solid crimson ;
+  border-radius: 8px;
+  width: 40%;
+  padding: 6px;
 }
 
-#textFeild2 {
-  padding-right: 10px;
-  margin: 10px;
-  float: right;
-  display: flex;
+input[type=text] {
+  border: none;
+  width: 75%;
+  padding: 10px;
+  background-color: #555;
+  border-radius: 8px;
+  outline: none;
+}
+
+input[type=text] :focus {
+  border: none; 
+  padding: 10px;
+  outline: none;
+  border-color: #555;
+  background-color: #555;
 }
 
 .theScreen {
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   height: 500px;
@@ -109,7 +122,8 @@
 
 button {
   margin: 5px;
-  width: 80px;
+  
+  width: 18%;
   height: 30px;
   background-color: crimson;
   border-radius: 8px;

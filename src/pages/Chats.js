@@ -1,4 +1,4 @@
-import UserCard from "./../combonent/userChatCard";
+import UserCard from "./../component/userChatCard";
 import useFetch from "../service/useFetch";
 import { useLocation } from "react-router-dom";
 // import axios from "axios";
