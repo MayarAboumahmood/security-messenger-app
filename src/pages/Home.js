@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 import MessageCard from './../component/messagecard';
@@ -9,6 +9,7 @@ const HomeChatx = () => {
     const [localMessage, setLocalMessage] = useState('');
     const [chatID, setChatID] = useState('');
     let [i, setI] = useState(false);
+    let [i2, setI2] = useState(false);
     let allMessagesObject = {
         message: '',
         messageID: '',
@@ -18,6 +19,40 @@ const HomeChatx = () => {
         openChat(openChatURL, userID, otherUserID);
         setI(true);
     }
+
+    //.....................................
+    useEffect(() => {
+        const sse = new EventSource('http://127.168.0.1:3000/showNewMessage/:chatID');
+
+        function getRealtimeData(data) {
+            console.log('the data in the sse: ', data);
+            let updatedValue = { 'message': localMessage, 'messageID': data.data.data.users };
+            setAllMessages((prevMessages) => [
+                ...prevMessages,
+                updatedValue
+            ]);
+        }
+        sse.onmessage = (event) => {
+            console.log('event.data in the onmessage: ', event.data);
+            if (event.data==='init'||!i2) {
+                setI2(true);
+                console.log('event.data in the onmessage: ', event.data);
+            } else {
+                getRealtimeData(JSON.parse(event.data));
+            }
+        }
+
+        sse.onerror = (e) => {
+            console.log(e);
+            sse.close();
+        }
+        return () => {
+            sse.close();
+        }
+    }, [allMessages, localMessage, i2]);
+
+    //.....................................
+
 
     async function openChat(url, userID, otherUserID) {
         try {
@@ -73,13 +108,13 @@ const HomeChatx = () => {
         }
 
     };
-    
+
     //to make a small delay...
     function timeout(delay) {
         return new Promise(res => setTimeout(res, delay));
     }
-    
-    
+
+
     const messagesEndRef = useRef(null);
     // Function to scroll to the bottom of the chat container
     const scrollToBottom = () => {
