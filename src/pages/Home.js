@@ -9,7 +9,6 @@ const HomeChatx = () => {
     const [localMessage, setLocalMessage] = useState('');
     const [chatID, setChatID] = useState('');
     let [i, setI] = useState(false);
-    let [i2, setI2] = useState(false);
     let allMessagesObject = {
         message: '',
         messageID: '',
@@ -20,37 +19,36 @@ const HomeChatx = () => {
         setI(true);
     }
 
+    function getRealtimeData(data) {
+        console.log('the data in the sse: ', data);
+        let updatedValue = { 'message': data.messages, 'messageID': data.users };
+        setAllMessages((prevMessages) => [
+            ...prevMessages,
+            updatedValue
+        ]);
+    }
+
+
     //.....................................
     useEffect(() => {
-        const sse = new EventSource('http://127.168.0.1:3000/showNewMessage/:chatID');
-
-        function getRealtimeData(data) {
-            console.log('the data in the sse: ', data);
-            let updatedValue = { 'message': localMessage, 'messageID': data.data.data.users };
-            setAllMessages((prevMessages) => [
-                ...prevMessages,
-                updatedValue
-            ]);
-        }
+        const sse = new EventSource(`http://127.168.0.1:3000/showNewMessage/:${chatID}`);
         sse.onmessage = (event) => {
-            console.log('event.data in the onmessage: ', event.data);
-            if (event.data==='init'||!i2) {
-                setI2(true);
+            if (event.data === 'init') {
                 console.log('event.data in the onmessage: ', event.data);
             } else {
+                console.log('we are in the else');
                 getRealtimeData(JSON.parse(event.data));
             }
         }
-
         sse.onerror = (e) => {
             console.log(e);
             sse.close();
         }
         return () => {
+            console.log('the sse is cloesd for now!');
             sse.close();
         }
-    }, [allMessages, localMessage, i2]);
-
+    }, [chatID]);//I should find something that is change to put it here to make the useeffect work!
     //.....................................
 
 
@@ -61,7 +59,6 @@ const HomeChatx = () => {
                 "userID2": otherUserID,
             });
             if (response.status === 200) {
-                console.log("open chat Request was successful:", response);
                 setChatID(response.data.data._id);
                 if (response.data.data.messages.length === 0) {
                     console.log('there is no messages yet!');
@@ -91,8 +88,6 @@ const HomeChatx = () => {
         try {
             const response = await axios.post(sendMessageURL, sendMessage);
             if (response.status === 200) {
-                console.log('the message had been sent!');
-
                 let updatedValue = { 'message': localMessage, 'messageID': response.data.data.users };
                 setAllMessages((prevMessages) => [
                     ...prevMessages,
@@ -118,9 +113,11 @@ const HomeChatx = () => {
     const messagesEndRef = useRef(null);
     // Function to scroll to the bottom of the chat container
     const scrollToBottom = () => {
-        console.log('scrolling...');
-        messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+        }
     };
+
     return (
         <div>
             <h1>let's chat with {userName}</h1>
@@ -139,6 +136,7 @@ const HomeChatx = () => {
             </div>
             <div id="textField1">
                 <input
+                    name='myInput'
                     type="text"
                     placeholder="Type your message..."
                     value={localMessage}
